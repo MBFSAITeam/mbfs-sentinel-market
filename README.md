@@ -99,5 +99,5 @@ market:
 ```
 
 Vì `artifacts` trong `index.json` là URL tuyệt đối, bản sinh cho media phải được sinh với đường dẫn
-media đó (script publish trong repo `mbfs-face-core-rust` nhận tham số này) — khi ấy cả danh mục lẫn
+media đó (script publish trong repo `sentinel-core-ai` nhận tham số này) — khi ấy cả danh mục lẫn
 DLL đều đọc từ đĩa, không cần mạng.
