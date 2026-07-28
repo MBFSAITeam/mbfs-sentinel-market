@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/MBFSAITeam/mbfs-sentinel-market/main/schema/index.schema.json",
+  "title": "MBFS Sentinel plugin market index",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "plugins"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Bump only on a breaking change. Clients refuse an index whose schema_version they do not know."
+    },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "plugins": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/plugin" }
+    }
+  },
+  "$defs": {
+    "plugin": {
+      "type": "object",
+      "required": [
+        "name", "display_name", "version", "abi_version",
+        "license_feature", "artifacts"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "description": "Canonical plugin name. Also the directory name under plugins/ on both sides."
+        },
+        "display_name": { "type": "string" },
+        "description": { "type": "string" },
+        "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+" },
+        "abi_version": {
+          "type": "integer",
+          "description": "Must equal the host's MBFS_SDK_ABI_VERSION or the DLL will not load."
+        },
+        "min_sentinel_version": { "type": "string" },
+        "license_feature": {
+          "type": "string",
+          "description": "License feature flag gating this plugin. Currently always equal to `name`."
+        },
+        "capabilities": {
+          "type": "object",
+          "description": "The plugin manifest's [capabilities] block, copied verbatim. Values are mostly booleans, but `zones` is a list of zone kinds — do not assume boolean.",
+          "additionalProperties": true
+        },
+        "classes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "models": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/model" }
+        },
+        "artifacts": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": {
+            "enum": ["windows-x86_64", "linux-x86_64", "jetson-aarch64"]
+          },
+          "additionalProperties": { "$ref": "#/$defs/artifact" }
+        },
+        "published_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "model": {
+      "type": "object",
+      "required": ["file"],
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "type": "string",
+          "description": "ONNX file name as declared in the plugin manifest's [models].files."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Absent today: the market does not distribute models yet. When present, the client downloads it into the models directory before installing."
+        },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "size": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["library", "manifest_url", "library_url", "library_sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "library": {
+          "type": "string",
+          "description": "Library file name, must match the manifest's plugin.library."
+        },
+        "manifest_url": { "type": "string", "format": "uri" },
+        "library_url": { "type": "string", "format": "uri" },
+        "library_size": { "type": "integer", "minimum": 0 },
+        "library_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    }
+  }
+}
