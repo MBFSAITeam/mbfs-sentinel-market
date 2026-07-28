@@ -1,0 +1,32 @@
+[plugin]
+name = "weapon_detection"
+version = "2.1.0"
+display_name = "Nhận diện vũ khí"
+description = "Phát hiện và cảnh báo hành vi sử dụng vũ khí"
+library = "weapon_detection.dll"
+
+[capabilities]
+use_gpu = true
+use_batching = true
+use_tracking = true
+use_alert = true
+use_zone = true
+
+# Class order MUST match the ONNX `names` metadata baked into
+# mbfs_weapon_det_v6.onnx: {0: Grenade, 1: Knife, 2: Pistol, 3: Rifle,
+# 4: Sword}. The host probes class names from the model file itself;
+# `[classes]` here is the fallback list + the default-enabled selection
+# (matched case-insensitively by name). v6 adds Grenade vs the legacy
+# v2's 4-class set (pistol/rifle/knife/sword).
+[classes]
+names = ["Grenade", "Knife", "Pistol", "Rifle", "Sword"]
+defaults = ["Grenade", "Knife", "Pistol", "Rifle", "Sword"]
+
+[models]
+files = ["mbfs_weapon_det_v6.onnx"]
+
+[inference]
+model = "mbfs_weapon_det_v6.onnx"
+confidence = 0.5
+nms = 0.45
+input_size = 640

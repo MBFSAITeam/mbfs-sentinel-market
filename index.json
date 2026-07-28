@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-28T04:01:31Z",
+  "plugins": [
+    {
+      "name": "crowd_detection",
+      "display_name": "Phát hiện đám đông",
+      "description": "Detects crowd formation in zones based on sustained person count",
+      "version": "0.1.0",
+      "abi_version": 12,
+      "min_sentinel_version": "5.4.7",
+      "license_feature": "crowd_detection",
+      "capabilities": {
+        "use_gpu": true,
+        "use_alert": true,
+        "zones": [
+          "detection_zone"
+        ]
+      },
+      "classes": [],
+      "models": [
+        {
+          "file": "mbfsn_human_det_v6.onnx"
+        }
+      ],
+      "artifacts": {
+        "windows-x86_64": {
+          "library": "crowd_detection.dll",
+          "manifest_url": "https://raw.githubusercontent.com/MBFSAITeam/mbfs-sentinel-market/main/plugins/crowd_detection/manifest.toml",
+          "library_url": "https://raw.githubusercontent.com/MBFSAITeam/mbfs-sentinel-market/main/plugins/crowd_detection/windows-x86_64/crowd_detection.dll",
+          "library_size": 1255936,
+          "library_sha256": "5b90f1b7ad3a43faf305c8f4347922e0b21de7620ea8d3ab0ab1947205cc8208"
+        }
+      },
+      "published_at": "2026-07-28T04:01:31Z"
+    },
+    {
+      "name": "weapon_detection",
+      "display_name": "Nhận diện vũ khí",
+      "description": "Phát hiện và cảnh báo hành vi sử dụng vũ khí",
+      "version": "2.1.0",
+      "abi_version": 12,
+      "min_sentinel_version": "5.4.7",
+      "license_feature": "weapon_detection",
+      "capabilities": {
+        "use_gpu": true,
+        "use_batching": true,
+        "use_tracking": true,
+        "use_alert": true,
+        "use_zone": true
+      },
+      "classes": [
+        "Grenade",
+        "Knife",
+        "Pistol",
+        "Rifle",
+        "Sword"
+      ],
+      "models": [
+        {
+          "file": "mbfs_weapon_det_v6.onnx"
+        }
+      ],
+      "artifacts": {
+        "windows-x86_64": {
+          "library": "weapon_detection.dll",
+          "manifest_url": "https://raw.githubusercontent.com/MBFSAITeam/mbfs-sentinel-market/main/plugins/weapon_detection/manifest.toml",
+          "library_url": "https://raw.githubusercontent.com/MBFSAITeam/mbfs-sentinel-market/main/plugins/weapon_detection/windows-x86_64/weapon_detection.dll",
+          "library_size": 1441280,
+          "library_sha256": "35ae446f3148c3ff2411c77cb1be041bbe84cb53159454a9df1c7711bb0f4da3"
+        }
+      },
+      "published_at": "2026-07-28T04:01:31Z"
+    }
+  ]
+}

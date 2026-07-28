@@ -1,0 +1,43 @@
+[plugin]
+name = "crowd_detection"
+version = "0.1.0"
+display_name = "Phát hiện đám đông"
+description = "Detects crowd formation in zones based on sustained person count"
+level = "advanced"
+library = "crowd_detection.dll"
+
+[capabilities]
+use_gpu = true
+use_alert = true
+zones = ["detection_zone"]
+
+[classes]
+defaults = ["person"]
+
+[models]
+files = ["mbfsn_human_det_v6.onnx"]
+
+[inference]
+model = "mbfsn_human_det_v6.onnx"
+confidence = 0.35
+nms = 0.45
+input_size = 640
+
+[[config.sections]]
+title = "CROWD CLASSIFIER"
+fields = [
+  { key = "crowd_threshold_count", type = "number", label = "Threshold count", default = 10 },
+  { key = "sustained_seconds", type = "slider", label = "Sustained (s)", min = 1, max = 60, step = 1, default = 5.0 },
+  { key = "emit_cooldown_ms", type = "number", label = "Alert cooldown (ms)", default = 120000 },
+]
+
+[[config.sections]]
+title = "VIDEO EVIDENCE"
+# Section header carries the `evidence_enabled` master toggle; body
+# collapses when off. No redundant in-body "Record MP4 evidence" row.
+gated_by = "evidence_enabled"
+fields = [
+  { key = "evidence_pre_seconds", type = "slider", label = "Pre-alert seconds", min = 0.0, max = 15.0, step = 0.5, default = 5.0 },
+  { key = "evidence_post_seconds", type = "slider", label = "Post-alert seconds", min = 0.0, max = 15.0, step = 0.5, default = 5.0 },
+  { key = "evidence_bitrate_kbps", type = "number", label = "Bitrate (kbps)", default = 2000 },
+]
