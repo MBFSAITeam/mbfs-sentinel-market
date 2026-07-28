@@ -78,27 +78,6 @@ Vài điểm về schema đáng biết trước khi sửa nó:
 - **`capabilities` copy nguyên khối `[capabilities]` của manifest** — đừng giả định toàn bool:
   `zones` là danh sách zone kind (`["detection_zone"]`).
 
-
----
-
-## Publish
-
-Từ repo `mbfs-face-core-rust`, sau khi `build_windows.py` đã sinh `dist/plugins/`:
-
-```bash
-# Xem trước, không đụng gì
-uv run python scripts/market/publish_plugins.py --dry-run
-
-# Publish một plugin, không push
-uv run python scripts/market/publish_plugins.py --only weapon_detection --no-push
-
-# Publish tất cả và push
-uv run python scripts/market/publish_plugins.py
-```
-
-Script bỏ qua plugin nào có version **và** sha256 của DLL đều không đổi, nên chạy lại khi không có
-gì mới sẽ để `git status` sạch. Dùng `--force` để ghi đè.
-
 ---
 
 ## Cài đặt phía Sentinel
@@ -119,6 +98,6 @@ market:
   index_url: "file:///D:/media/mbfs-sentinel-market/index.json"
 ```
 
-Vì `artifacts` trong `index.json` là URL tuyệt đối, chạy `publish_plugins.py --market-repo <đường
-dẫn media>` trên máy build sẽ sinh URL trỏ ngay vào media — cả danh mục lẫn DLL đều đọc từ đĩa,
-không cần mạng.
+Vì `artifacts` trong `index.json` là URL tuyệt đối, bản sinh cho media phải được sinh với đường dẫn
+media đó (script publish trong repo `mbfs-face-core-rust` nhận tham số này) — khi ấy cả danh mục lẫn
+DLL đều đọc từ đĩa, không cần mạng.
