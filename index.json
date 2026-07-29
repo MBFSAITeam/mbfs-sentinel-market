@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-29T12:23:36Z",
+  "generated_at": "2026-07-29T12:24:20Z",
   "plugins": [
     {
       "name": "crowd_detection",
@@ -79,7 +79,6 @@
       "description": "Phát hiện và cảnh báo hành vi sử dụng vũ khí",
       "version": "2.1.0",
       "abi_version": 12,
-      "min_sentinel_version": "5.4.7",
       "license_feature": "weapon_detection",
       "capabilities": {
         "use_gpu": true,
@@ -109,7 +108,7 @@
           "library_sha256": "35ae446f3148c3ff2411c77cb1be041bbe84cb53159454a9df1c7711bb0f4da3"
         }
       },
-      "published_at": "2026-07-28T04:01:31Z"
+      "published_at": "2026-07-29T12:24:20Z"
     }
   ]
 }
