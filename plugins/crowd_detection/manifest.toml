@@ -1,6 +1,6 @@
 [plugin]
 name = "crowd_detection"
-version = "0.1.0"
+version = "1.0.0"
 display_name = "Phát hiện đám đông"
 description = "Detects crowd formation in zones based on sustained person count"
 level = "advanced"
@@ -13,6 +13,14 @@ zones = ["detection_zone"]
 
 [classes]
 defaults = ["person"]
+
+# Evidence storage: raw full frame only. The crowd alert is frame-level (a
+# count, not a subject) and carries the zero-area sentinel bbox, so a
+# burned-in copy shows nothing the raw frame doesn't. Clients draw whatever
+# they need from `detections[]`; `annotated_frame_path` stays NULL and
+# consumers fall back to `full_frame_path`.
+[datalake]
+annotated_frame = false
 
 [models]
 files = ["mbfsn_human_det_v6.onnx"]
@@ -39,5 +47,5 @@ gated_by = "evidence_enabled"
 fields = [
   { key = "evidence_pre_seconds", type = "slider", label = "Pre-alert seconds", min = 0.0, max = 15.0, step = 0.5, default = 5.0 },
   { key = "evidence_post_seconds", type = "slider", label = "Post-alert seconds", min = 0.0, max = 15.0, step = 0.5, default = 5.0 },
-  { key = "evidence_bitrate_kbps", type = "number", label = "Bitrate (kbps)", default = 2000 },
+  { key = "evidence_bitrate_kbps", type = "number", label = "Bitrate (kbps)", default = 2000, advanced = true },
 ]

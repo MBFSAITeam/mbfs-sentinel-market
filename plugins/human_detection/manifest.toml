@@ -1,0 +1,58 @@
+[plugin]
+name = "human_detection"
+version = "3.3.0"
+display_name = "Phát hiện người xâm phạm khu vực"
+description = "Phát hiện xâm phạm khu vực và bóc tách quần áo"
+library = "human_detection.dll"
+level = "advanced"
+
+[capabilities]
+use_gpu = true
+use_batching = true
+use_tracking = true
+use_alert = true
+zones = ["detection_zone"]
+
+[classes]
+defaults = ["person"]
+
+# Intrusion shots read cleaner with boxes only — no "person NN%" text.
+[datalake]
+draw_labels = false
+
+[models]
+files = ["mbfsn_human_det_v6.onnx", "mbfsn_clothing_seg_v3.onnx"]
+
+# Primary inference: person detection (host runs this automatically).
+[inference]
+type = "single"
+model = "mbfsn_human_det_v6.onnx"
+confidence = 0.75
+nms = 0.45
+input_size = 640
+
+# Named secondary model: clothing detection (YOLOv8-seg consumed as a detector
+# — bbox + class only; mask prototypes unused). Plugin invokes via
+# host.infer_yolo_crops. ONNX `names` = {0: "Upper", 1: "Lower"}.
+# `kind = "yolo_seg"` makes the host cap the decoder's class count to the 2 real
+# classes, so the 32 mask-coefficient channels are never decoded as phantom
+# "unknown" boxes (a plain `kind = "yolo"` floods the plugin with thousands of
+# bogus detections). The plugin keys on class_name "Upper"/"Lower" — NOT
+# class_id, which `infer_yolo_crops` always reports as 0.
+#
+# `mbfsn_clothing_seg_v3.onnx` is the MBFS-trained YOLOv8-seg replacement
+# for the legacy `mbfs_clothing_seg_upper_lower_v1.onnx` (~109 MB → ~13 MB,
+# same 2-class contract). Source checkpoint: `models/mbfsn_clothing_seg_v3.pt`
+# → exported via `pipelines/human-detection/scripts/export_clothing_seg_onnx.py`.
+# Shared with suspect-tracking.
+[models.clothing_seg]
+model = "mbfsn_clothing_seg_v3.onnx"
+kind = "yolo_seg"
+confidence = 0.3
+nms = 0.5
+input_size = 640
+
+# Two-stage pipeline (person → seg per crop) is heavier than the single-stage
+# variant. Cap dispatch at 15 fps so the runner stays ahead of the coordinator.
+[runtime]
+max_fps = 15
