@@ -1,0 +1,29 @@
+[plugin]
+name = "people_counting"
+version = "3.0.1"
+display_name = "Đếm người"
+description = "Phát hiện và đếm người qua đường kẻ"
+library = "people_counting.dll"
+level = "advanced"
+
+[capabilities]
+use_gpu = true
+use_batching = true
+use_tracking = true
+use_zone = true
+# Typed zone kinds the plugin consumes (enabled_detection_zones + enabled_counting_lines in lib.rs).
+# Drives the GUI/CMS editor routing → detection-zone drawer + counting-line drawer.
+zones = ["detection_zone", "counting_line"]
+
+[classes]
+names = ["person"]
+defaults = ["person"]
+
+[models]
+files = ["mbfsn_human_det_v6.onnx"]
+
+[inference]
+model = "mbfsn_human_det_v6.onnx"
+confidence = 0.25
+nms = 0.45
+input_size = 640

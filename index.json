@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-29T12:24:20Z",
+  "generated_at": "2026-07-29T12:28:56Z",
   "plugins": [
     {
       "name": "crowd_detection",
@@ -72,6 +72,42 @@
         }
       },
       "published_at": "2026-07-29T12:23:36Z"
+    },
+    {
+      "name": "people_counting",
+      "display_name": "Đếm người",
+      "description": "Phát hiện và đếm người qua đường kẻ",
+      "version": "3.0.1",
+      "abi_version": 12,
+      "license_feature": "people_counting",
+      "capabilities": {
+        "use_gpu": true,
+        "use_batching": true,
+        "use_tracking": true,
+        "use_zone": true,
+        "zones": [
+          "detection_zone",
+          "counting_line"
+        ]
+      },
+      "classes": [
+        "person"
+      ],
+      "models": [
+        {
+          "file": "mbfsn_human_det_v6.onnx"
+        }
+      ],
+      "artifacts": {
+        "windows-x86_64": {
+          "library": "people_counting.dll",
+          "manifest_url": "https://raw.githubusercontent.com/MBFSAITeam/mbfs-sentinel-market/main/plugins/people_counting/manifest.toml",
+          "library_url": "https://raw.githubusercontent.com/MBFSAITeam/mbfs-sentinel-market/main/plugins/people_counting/windows-x86_64/people_counting.dll",
+          "library_size": 1121280,
+          "library_sha256": "aa8144444388263e5ad2d592c3a14e9b5e84364edbad0c525f0329adf2f8bd5a"
+        }
+      },
+      "published_at": "2026-07-29T12:28:56Z"
     },
     {
       "name": "weapon_detection",
