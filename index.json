@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-29T12:18:37Z",
+  "generated_at": "2026-07-29T12:23:36Z",
   "plugins": [
     {
       "name": "crowd_detection",
@@ -8,7 +8,6 @@
       "description": "Detects crowd formation in zones based on sustained person count",
       "version": "1.0.0",
       "abi_version": 12,
-      "min_sentinel_version": "5.4.9",
       "license_feature": "crowd_detection",
       "capabilities": {
         "use_gpu": true,
@@ -34,7 +33,7 @@
           "library_sha256": "00e559eb4e2c5cc63451806bf1c11bd3374d8164e839d588da28629fe7e3a2a0"
         }
       },
-      "published_at": "2026-07-29T12:18:37Z"
+      "published_at": "2026-07-29T12:23:36Z"
     },
     {
       "name": "human_detection",
@@ -42,7 +41,6 @@
       "description": "Phát hiện xâm phạm khu vực và bóc tách quần áo",
       "version": "3.3.0",
       "abi_version": 12,
-      "min_sentinel_version": "5.4.9",
       "license_feature": "human_detection",
       "capabilities": {
         "use_gpu": true,
@@ -73,7 +71,7 @@
           "library_sha256": "3f6d6de8c8f0314b2ce68648bcb3b7ab4dc2a743e6900c14799d48e3e4f050f1"
         }
       },
-      "published_at": "2026-07-29T12:18:37Z"
+      "published_at": "2026-07-29T12:23:36Z"
     },
     {
       "name": "weapon_detection",
