@@ -74,7 +74,16 @@ Vài điểm về schema đáng biết trước khi sửa nó:
 - **`artifacts` khoá theo nền tảng.** Hiện chỉ `windows-x86_64`; thêm `linux-x86_64`,
   `jetson-aarch64` sau mà không đổi schema.
 - **`abi_version`** phải khớp `MBFS_SDK_ABI_VERSION` của bản Sentinel đang chạy, nếu không client
-  từ chối cài (host sẽ không nạp được DLL).
+  từ chối cài (host sẽ không nạp được DLL). Đây là **cổng tương thích duy nhất** —
+  `classify()` trong `crates/mbfs-gui/src/features/market/state.rs` xét lần lượt artifact →
+  vừa cài trong phiên → ABI → license → model → version.
+- **`min_sentinel_version` là tuỳ chọn và thường vắng mặt.** Trước đây nó bị đóng dấu bằng phiên
+  bản workspace của bản build sinh ra bundle, tức là "cần ít nhất bản Sentinel đã biên dịch tôi" —
+  một cái sàn không có thật: plugin build bởi 5.4.9 chạy tốt trên 5.4.7 miễn cùng ABI 12. Client
+  hiện **không đọc** trường này, nên giá trị sai chỉ gây hiểu lầm cho người đọc danh mục — nhưng
+  sẽ thành cái chặn thật ngày nào client bắt đầu xét nó. Chỉ khai
+  `min_sentinel_version` trong `[plugin]` của `manifest.toml` khi plugin thực sự cần host mới hơn
+  (ví dụ dùng một host API chỉ có từ một bản nhất định). Vắng mặt = "mọi host có ABI khớp".
 - **`capabilities` copy nguyên khối `[capabilities]` của manifest** — đừng giả định toàn bool:
   `zones` là danh sách zone kind (`["detection_zone"]`).
 
